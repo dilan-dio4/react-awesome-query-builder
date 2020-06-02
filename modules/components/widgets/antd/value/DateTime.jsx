@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { DatePicker } from 'antd';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+
+try { dayjs.utc().isUTC(); } catch (e) { dayjs.extend(utc); }
 
 
 export default class DateTimeWidget extends PureComponent {
@@ -23,8 +26,8 @@ export default class DateTimeWidget extends PureComponent {
     constructor(props) {
         super(props);
 
-        const {valueFormat, value, setValue} = props;
-        let mValue = value ? moment(value, valueFormat) : null;
+        const { valueFormat, value, setValue } = props;
+        let mValue = value ? dayjs.utc(value, valueFormat) : null;
         if (mValue && !mValue.isValid()) {
             setValue(null);
         }
@@ -38,16 +41,16 @@ export default class DateTimeWidget extends PureComponent {
     };
 
     handleChange = (_value) => {
-        const {setValue, valueFormat} = this.props;
+        const { setValue, valueFormat } = this.props;
         const value = _value && _value.isValid() ? _value.format(valueFormat) : undefined;
         if (value || _value === null)
             setValue(value);
     }
 
     render() {
-        const {placeholder, customProps, value, valueFormat, dateFormat, timeFormat, use12Hours, config, readonly} = this.props;
-        const {renderSize} = config.settings;
-        const dateValue = value ? moment(value, valueFormat) : null;
+        const { placeholder, customProps, value, valueFormat, dateFormat, timeFormat, use12Hours, config, readonly } = this.props;
+        const { renderSize } = config.settings;
+        const dateValue = value ? dayjs.utc(value, valueFormat) : null;
         const dateTimeFrmat = dateFormat + ' ' + timeFormat;
 
         return (

@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TimePicker } from 'antd';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 
+try { dayjs.utc().isUTC(); } catch (e) { dayjs.extend(utc); }
 
 export default class TimeWidget extends PureComponent {
     static propTypes = {
@@ -22,8 +24,8 @@ export default class TimeWidget extends PureComponent {
     constructor(props) {
         super(props);
 
-        const {valueFormat, value, setValue} = props;
-        let mValue = value ? moment(value, valueFormat) : null;
+        const { valueFormat, value, setValue } = props;
+        let mValue = value ? dayjs.utc(value, valueFormat) : null;
         if (mValue && !mValue.isValid()) {
             setValue(null);
         }
@@ -37,9 +39,9 @@ export default class TimeWidget extends PureComponent {
 
 
     handleChange = (_value) => {
-        const {setValue, valueFormat, timeFormat} = this.props;
-        if (_value && _value.isValid() && timeFormat == 'HH:mm') {
-            _value.set({second:0, millisecond:0});
+        const { setValue, valueFormat, timeFormat } = this.props;
+        if (_value && _value.isValid() && timeFormat === 'HH:mm') {
+            _value.set({ second: 0, millisecond: 0 });
         }
         const value = _value && _value.isValid() ? _value.format(valueFormat) : undefined;
         if (value || _value === null)
@@ -47,9 +49,9 @@ export default class TimeWidget extends PureComponent {
     }
 
     render() {
-        const {placeholder, customProps, value, valueFormat, timeFormat, use12Hours, config, readonly} = this.props;
-        const {renderSize} = config.settings;
-        const timeValue = value ? moment(value, valueFormat) : null;
+        const { placeholder, customProps, value, valueFormat, timeFormat, use12Hours, config, readonly } = this.props;
+        const { renderSize } = config.settings;
+        const timeValue = value ? dayjs.utc(value, valueFormat) : null;
 
         return (
             <TimePicker

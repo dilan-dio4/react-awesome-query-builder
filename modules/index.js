@@ -10,4 +10,3 @@ const Utils = {...BasicUtils, ...Export, ...Import};
 export {Widgets, Operators, Utils, Export, Import};
 
 export {default as BasicConfig} from './config/basic';
-
