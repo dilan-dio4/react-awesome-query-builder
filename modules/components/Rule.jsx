@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import RuleContainer from './containers/RuleContainer';
 import Draggable from './containers/Draggable';
@@ -6,17 +6,21 @@ import Field from './Field';
 import Operator from './Operator';
 import Widget from './Widget';
 import OperatorOptions from './OperatorOptions';
-import {getFieldConfig, getFieldPathLabels, getOperatorConfig, getFieldWidgetConfig} from "../utils/configUtils";
-import {useOnPropsChanged} from "../utils/stuff";
+import { getFieldConfig, getFieldPathLabels, getOperatorConfig, getFieldWidgetConfig } from "../utils/configUtils";
+import { useOnPropsChanged } from "../utils/stuff";
+import { red } from '@material-ui/core/colors';
+import { DeleteOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 
-const Col = ({children, ...props}) => (<div {...props}>{children}</div>);
-const dummyFn = () => {};
+
+const Col = ({ children, ...props }) => (<div {...props}>{children}</div>);
+const dummyFn = () => { };
 const DragIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray" width="18px" height="18px">
-      <path d="M0 0h24v24H0V0z" fill="none"/>
-      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
     </svg>
-  );
+);
 
 @RuleContainer
 @Draggable("rule")
@@ -60,15 +64,15 @@ class Rule extends PureComponent {
         }
     }
 
-    getMeta({selectedField, selectedOperator, config, treeNodesCnt}) {
+    getMeta({ selectedField, selectedOperator, config, treeNodesCnt }) {
         const selectedFieldPartsLabels = getFieldPathLabels(selectedField, config);
         const selectedFieldConfig = getFieldConfig(selectedField, config);
-        const isSelectedGroup = selectedFieldConfig && selectedFieldConfig.type == '!struct';
+        const isSelectedGroup = selectedFieldConfig && selectedFieldConfig.type === '!struct';
         const isFieldAndOpSelected = selectedField && selectedOperator && !isSelectedGroup;
         const selectedOperatorConfig = getOperatorConfig(config, selectedOperator, selectedField);
         const selectedOperatorHasOptions = selectedOperatorConfig && selectedOperatorConfig.options != null;
         const selectedFieldWidgetConfig = getFieldWidgetConfig(config, selectedField, selectedOperator) || {};
-        const isOnlyValue = selectedField && selectedFieldConfig.valueSources.length == 1 && selectedFieldConfig.valueSources[0] == 'value';
+        const isOnlyValue = selectedField && selectedFieldConfig.valueSources.length === 1 && selectedFieldConfig.valueSources[0] === 'value';
         const hideOperator = selectedFieldWidgetConfig.hideOperator && isOnlyValue;
 
         const showDragIcon = config.settings.canReorder && treeNodesCnt > 1;
@@ -84,18 +88,19 @@ class Rule extends PureComponent {
     }
 
     removeSelf = () => {
-      const {renderConfirm, removeRuleConfirmOptions: confirmOptions} = this.props.config.settings;
-      const doRemove = () => {
-        this.props.removeSelf();
-      };
-      if (confirmOptions && !this.isEmptyCurrentRule()) {
-        renderConfirm({...confirmOptions,
-          onOk: doRemove,
-          onCancel: null
-        });
-      } else {
-        doRemove();
-      }
+        const { renderConfirm, removeRuleConfirmOptions: confirmOptions } = this.props.config.settings;
+        const doRemove = () => {
+            this.props.removeSelf();
+        };
+        if (confirmOptions && !this.isEmptyCurrentRule()) {
+            renderConfirm({
+                ...confirmOptions,
+                onOk: doRemove,
+                onCancel: null
+            });
+        } else {
+            doRemove();
+        }
     }
 
     isEmptyCurrentRule = () => {
@@ -106,19 +111,19 @@ class Rule extends PureComponent {
         );
     }
 
-    render () {
-        const {config} = this.props;
+    render() {
+        const { config } = this.props;
         const {
             selectedFieldPartsLabels, selectedFieldWidgetConfig,
             showDragIcon, showOperator, showOperatorLabel, showWidget, showOperatorOptions
         } = this.meta;
         const {
-            deleteLabel, renderBeforeWidget, renderAfterWidget, renderSize, 
+            deleteLabel, renderBeforeWidget, renderAfterWidget,
             immutableGroupsMode, immutableFieldsMode, immutableOpsMode, immutableValuesMode,
             renderButton: Btn
         } = config.settings;
 
-        const field = 
+        const field =
             <FieldWrapper
                 key="field"
                 classname={"rule--field"}
@@ -128,7 +133,7 @@ class Rule extends PureComponent {
                 parentField={this.props.parentField}
                 readonly={immutableFieldsMode}
             />;
-        const operator = 
+        const operator =
             <OperatorWrapper
                 key="operator"
                 config={config}
@@ -143,7 +148,7 @@ class Rule extends PureComponent {
             />;
 
         const widget = showWidget &&
-            <Col key={"widget-for-"+this.props.selectedOperator} className="rule--value">
+            <Col key={"widget-for-" + this.props.selectedOperator} className="rule--value">
                 <Widget
                     key="values"
                     field={this.props.selectedField}
@@ -157,7 +162,7 @@ class Rule extends PureComponent {
                 />
             </Col>;
         const operatorOptions = showOperatorOptions &&
-            <Col key={"op-options-for-"+this.props.selectedOperator} className="rule--operator-options">
+            <Col key={"op-options-for-" + this.props.selectedOperator} className="rule--operator-options">
                 <OperatorOptions
                     key="operatorOptions"
                     selectedField={this.props.selectedField}
@@ -169,13 +174,13 @@ class Rule extends PureComponent {
                 />
             </Col>;
 
-        const beforeWidget = renderBeforeWidget && 
-            <Col key={"before-widget-for-" +this.props.selectedOperator} className="rule--before-widget">
+        const beforeWidget = renderBeforeWidget &&
+            <Col key={"before-widget-for-" + this.props.selectedOperator} className="rule--before-widget">
                 {typeof renderBeforeWidget === 'function' ? renderBeforeWidget(this.props) : renderBeforeWidget}
             </Col>;
 
-        const afterWidget = renderAfterWidget && 
-            <Col key={"after-widget-for-" +this.props.selectedOperator} className="rule--after-widget">
+        const afterWidget = renderAfterWidget &&
+            <Col key={"after-widget-for-" + this.props.selectedOperator} className="rule--after-widget">
                 {typeof renderAfterWidget === 'function' ? renderAfterWidget(this.props) : renderAfterWidget}
             </Col>;
 
@@ -194,13 +199,26 @@ class Rule extends PureComponent {
                 className={"qb-drag-handler rule--drag-handler"}
                 onMouseDown={this.props.handleDraggerMouseDown}
             ><DragIcon /> </span>
-        ;
+            ;
+
+        const trashButtonStyle = {
+            backgroundColor: red.A400,
+            color: 'white',
+            borderRadius: '4px'
+        };
 
         const del = (
             <div key="rule-header" className="rule--header">
-            {!immutableGroupsMode && <Btn 
-                type="delRule" onClick={this.removeSelf} label={deleteLabel} config={config}
-            />}
+                {!immutableGroupsMode && <Button
+                    type="danger"
+                    icon={<DeleteOutlined />}
+                    onClick={this.removeSelf}
+                    size={this.props.config.settings.renderSize}
+                    style={trashButtonStyle}
+                >
+                    {deleteLabel}
+                </Button>
+                }
             </div>
         );
 
@@ -218,10 +236,10 @@ class Rule extends PureComponent {
 
 export class FieldWrapper extends PureComponent {
     render() {
-        const {config, selectedField, setField, parentField, classname, readonly} = this.props;
+        const { config, selectedField, setField, parentField, classname, readonly } = this.props;
         return (
             <Col className={classname}>
-                { config.settings.showLabels &&
+                {config.settings.showLabels &&
                     <label>{config.settings.fieldLabel}</label>
                 }
                 <Field
@@ -241,12 +259,12 @@ export class FieldWrapper extends PureComponent {
 class OperatorWrapper extends PureComponent {
     render() {
         const {
-            config, selectedField, selectedOperator, setOperator, 
+            config, selectedField, selectedOperator, setOperator,
             selectedFieldPartsLabels, showOperator, showOperatorLabel, selectedFieldWidgetConfig, readonly
         } = this.props;
         const operator = showOperator &&
-            <Col key={"operators-for-"+(selectedFieldPartsLabels || []).join("_")} className="rule--operator">
-                { config.settings.showLabels &&
+            <Col key={"operators-for-" + (selectedFieldPartsLabels || []).join("_")} className="rule--operator">
+                {config.settings.showLabels &&
                     <label>{config.settings.operatorLabel}</label>
                 }
                 <Operator
@@ -259,11 +277,11 @@ class OperatorWrapper extends PureComponent {
                 />
             </Col>;
         const hiddenOperator = showOperatorLabel &&
-            <Col key={"operators-for-"+(selectedFieldPartsLabels || []).join("_")} className="rule--operator">
+            <Col key={"operators-for-" + (selectedFieldPartsLabels || []).join("_")} className="rule--operator">
                 <div className="rule--operator">
                     {config.settings.showLabels ?
                         <label>&nbsp;</label>
-                    : null}
+                        : null}
                     <span>{selectedFieldWidgetConfig.operatorInlineLabel}</span>
                 </div>
             </Col>;
