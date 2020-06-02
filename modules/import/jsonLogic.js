@@ -3,7 +3,7 @@ import {defaultValue} from "../utils/stuff";
 import {getFieldConfig, extendConfig, getWidgetForFieldOp} from "../utils/configUtils";
 import {loadTree} from "./tree";
 import {defaultConjunction} from '../utils/defaultUtils';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 // http://jsonlogic.com/
 
@@ -120,7 +120,7 @@ const convertVal = (val, fieldConfig, widget, config, meta) => {
       dateVal.setHours(h);
       dateVal.setMinutes(m);
       dateVal.setSeconds(s);
-      val = moment(dateVal).format(valueFormat);
+      val = dayjs(dateVal).format(valueFormat);
     } else {
       val = `${h}:${m}:${s}`;
     }
@@ -138,7 +138,7 @@ const convertVal = (val, fieldConfig, widget, config, meta) => {
   if (val instanceof Date && fieldConfig) {
     const valueFormat = widgetConfig.valueFormat;
     if (valueFormat) {
-      val = moment(val).format(valueFormat);
+      val = dayjs(val).format(valueFormat);
     }
   }
 

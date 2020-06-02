@@ -9,7 +9,7 @@ var plugins = [
     new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|ru|es-us/),
+    // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|ru|es-us/),
 ];
 var optimization = {};
 
@@ -45,7 +45,6 @@ module.exports = {
             "react-redux": "ReactRedux",
             "redux": "Redux",
             "immutable": "Immutable",
-            "moment": 'moment',
             "transit-js": "Transit",
             "transit-immutable-js": "TransitImmutable",
             "sqlstring": "sqlstring",

@@ -2,7 +2,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import sinon from 'sinon';
-import moment from 'moment';
+import dayjs from 'dayjs';
 const stringify = JSON.stringify;
 
 import {
@@ -1410,7 +1410,7 @@ describe('antdesign widgets', () => {
       qb
         .find('DateWidget')
         .instance()
-        .handleChange(moment('2020-05-05'));
+        .handleChange(dayjs('2020-05-05'));
       expect_jlogic_before_and_after(config_with_all_types, init_jl_value_with_date, onChange, [null,
         { "and": [{ "==": [ { "var": "date" }, '2020-05-05T00:00:00.000Z' ] }] }
       ]);

@@ -3,7 +3,6 @@ import last from 'lodash/last';
 import merge from 'lodash/merge';
 import mergeWith from 'lodash/mergeWith';
 import {settings as defaultSettings} from '../config/default';
-import moment from 'moment';
 import {normalizeListValues} from './stuff';
 
 
@@ -22,8 +21,6 @@ export const extendConfig = (config) => {
 
     _extendFuncArgsConfig(config.funcs, config);
     
-    moment.locale(config.settings.locale.short);
-
     Object.defineProperty(config, "__extended", {
         enumerable: false,
         writable: false,
