@@ -652,7 +652,7 @@ const widgets = {
         ],
         formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
             const dateVal = dayjs.utc(val, wgtDef.valueFormat);
-            return isForDisplay ? '"' + dateVal.format(wgtDef.timeFormat) + '"' : dateVal.get('hour') * 60 + dateVal.get('minute');
+            return isForDisplay ? '"' + dateVal.format(wgtDef.timeFormat) + '"' : JSON.stringify(val);
         },
         jsonLogic: (val, fieldDef, wgtDef) => {
             // return seconds of day

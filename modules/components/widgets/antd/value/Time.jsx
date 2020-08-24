@@ -44,14 +44,17 @@ export default class TimeWidget extends PureComponent {
             _value.set({ second: 0, millisecond: 0 });
         }
         const value = _value && _value.isValid() ? _value.format(valueFormat) : undefined;
-        if (value || _value === null)
-            setValue(value);
+        if (_value === null)
+            setValue(_value.hour() * 60 + _value.minute());
     }
 
     render() {
         const { placeholder, customProps, value, valueFormat, timeFormat, use12Hours, config, readonly } = this.props;
         const { renderSize } = config.settings;
-        const timeValue = value ? dayjs.utc(value, valueFormat) : null;
+
+        let timeValue = null;
+        if (value !== null) 
+            timeValue = typeof value === 'number' ? dayjs.utc().startOf('day').minute(value) : dayjs.utc(value, valueFormat);
 
         return (
             <TimePicker
