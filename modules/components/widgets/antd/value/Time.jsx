@@ -9,7 +9,7 @@ try { dayjs.utc().isUTC(); } catch (e) { dayjs.extend(utc); }
 export default class TimeWidget extends PureComponent {
     static propTypes = {
         setValue: PropTypes.func.isRequired,
-        value: PropTypes.string, //in valueFormat
+        value: PropTypes.number,
         config: PropTypes.object.isRequired,
         field: PropTypes.string.isRequired,
         placeholder: PropTypes.string,
