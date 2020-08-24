@@ -633,7 +633,6 @@ const widgets = {
         ],
         formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
             const dateVal = dayjs.utc(val, wgtDef.valueFormat);
-            return JSON.stringify("CAP");
             return isForDisplay ? '"' + dateVal.format(wgtDef.dateFormat) + '"' : JSON.stringify(val);
         },
         jsonLogic: (val, fieldDef, wgtDef) => dayjs.utc(val, wgtDef.valueFormat).toDate(),

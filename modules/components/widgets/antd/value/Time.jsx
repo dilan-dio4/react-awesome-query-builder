@@ -60,7 +60,7 @@ export default class TimeWidget extends PureComponent {
                 key="widget-time"
                 size={renderSize}
                 placeholder={placeholder}
-                format={timeFormat}
+                format={"h:mm a"}
                 value={timeValue}
                 onChange={this.handleChange}
                 {...customProps}
