@@ -43,15 +43,13 @@ export default class TimeWidget extends PureComponent {
         if (_value && _value.isValid() && timeFormat === 'HH:mm') {
             _value.set({ second: 0, millisecond: 0 });
         }
-        const newVal = `${_value.hour() * 60 + _value.minute()}`;
-        setValue(newVal);
+        if (_value === null) setValue(null);
+        else setValue(`${_value.hour() * 60 + _value.minute()}`);
     }
 
     render() {
         const { placeholder, customProps, value, valueFormat, timeFormat, use12Hours, config, readonly } = this.props;
         const { renderSize } = config.settings;
-
-        console.log(value, timeValue);
 
         return (
             <TimePicker
@@ -61,7 +59,7 @@ export default class TimeWidget extends PureComponent {
                 size={renderSize}
                 placeholder={placeholder}
                 format={"h:mm a"}
-                value={value ? dayjs.utc().startOf('day').minute(value) : null}
+                value={value ? dayjs.utc().startOf('day').minute(Number(value)) : null}
                 onChange={this.handleChange}
                 {...customProps}
             />
