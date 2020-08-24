@@ -43,9 +43,8 @@ export default class TimeWidget extends PureComponent {
         if (_value && _value.isValid() && timeFormat === 'HH:mm') {
             _value.set({ second: 0, millisecond: 0 });
         }
-        const value = _value && _value.isValid() ? _value.format(valueFormat) : undefined;
         if (_value === null)
-            setValue(_value.hour() * 60 + _value.minute());
+            setValue(_value.isValid() ? _value.hour() * 60 + _value.minute() : 0);
     }
 
     render() {
@@ -59,7 +58,7 @@ export default class TimeWidget extends PureComponent {
         return (
             <TimePicker
                 disabled={readonly}
-                use12Hours={use12Hours}
+                use12Hours
                 key="widget-time"
                 size={renderSize}
                 placeholder={placeholder}
