@@ -52,7 +52,7 @@ export default class TimeWidget extends PureComponent {
         const { renderSize } = config.settings;
 
         let timeValue = null;
-        if (value !== null) 
+        if (value) 
             timeValue = typeof value === 'number' ? dayjs.utc().startOf('day').minute(value) : dayjs.utc(value, valueFormat);
 
         return (
