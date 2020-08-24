@@ -633,6 +633,7 @@ const widgets = {
         ],
         formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
             const dateVal = dayjs.utc(val, wgtDef.valueFormat);
+            return JSON.stringify("CAP");
             return isForDisplay ? '"' + dateVal.format(wgtDef.dateFormat) + '"' : JSON.stringify(val);
         },
         jsonLogic: (val, fieldDef, wgtDef) => dayjs.utc(val, wgtDef.valueFormat).toDate(),
@@ -642,7 +643,7 @@ const widgets = {
         jsType: "string",
         valueSrc: 'value',
         factory: (props) => <TimeWidget {...props} />,
-        timeFormat: 'HH:mm a',
+        timeFormat: 'h:mm a',
         valueFormat: 'HH:mm:ss',
         valueLabel: "Time",
         valuePlaceholder: "Enter time",
@@ -652,13 +653,11 @@ const widgets = {
         ],
         formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
             const dateVal = dayjs.utc(val, wgtDef.valueFormat);
-            return JSON.stringify("s");
             return isForDisplay ? '"' + dateVal.format(wgtDef.timeFormat) + '"' : dateVal.get('hour') * 60 + dateVal.get('minute');
         },
         jsonLogic: (val, fieldDef, wgtDef) => {
             // return seconds of day
             const dateVal = dayjs.utc(val, wgtDef.valueFormat);
-            return JSON.stringify("f");
             return dateVal.get('hour') * 60 * 60 + dateVal.get('minute') * 60 + dateVal.get('second');
         },
     },
