@@ -44,7 +44,7 @@ export default class TimeWidget extends PureComponent {
             _value.set({ second: 0, millisecond: 0 });
         }
         if (_value === null) setValue(null);
-        else setValue(`${_value.hour() * 60 + _value.minute()}`);
+        else setValue(_value.hour() * 60 + _value.minute());
     }
 
     render() {
@@ -59,7 +59,7 @@ export default class TimeWidget extends PureComponent {
                 size={renderSize}
                 placeholder={placeholder}
                 format={"h:mm a"}
-                value={value ? dayjs.utc().startOf('day').minute(Number(value)) : null}
+                value={value ? dayjs.utc().startOf('day').minute(value) : null}
                 onChange={this.handleChange}
                 {...customProps}
             />

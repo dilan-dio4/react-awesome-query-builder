@@ -639,7 +639,7 @@ const widgets = {
     },
     time: {
         type: "time",
-        jsType: "string",
+        jsType: "number",
         valueSrc: 'value',
         factory: (props) => <TimeWidget {...props} />,
         timeFormat: 'h:mm a',
