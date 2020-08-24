@@ -237,7 +237,8 @@ const validateNormalValue = (leftField, field, value, valueSrc, valueType, confi
 	if (valueType != wType)
 			return [`Value should have type ${wType}, but got value of type ${valueType}`, value];
 	if (jsType && !isTypeOf(value, jsType) && !fieldSettings.listValues) { //tip: can skip tye check for listValues
-		return [`Value should have JS type ${jsType}, but got value of type ${typeof value}`, value];
+		return [null, value];
+		// return [`Value should have JS type ${jsType}, but got value of type ${typeof value}`, value];
 	}
 
 	if (fieldSettings) {
